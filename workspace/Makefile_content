@@ -1,0 +1,19 @@
+
+CAT_COMPILE_INFO += COMPILER = $(TEXT_COLOR_GREEN)$(CROSS_COMPILE)$(TEXT_COLOR_END)\n
+CAT_COMPILE_INFO += CATOS_BOARD_ARCH = $(TEXT_COLOR_GREEN)$(CATOS_BOARD_ARCH)$(TEXT_COLOR_END)\n
+CAT_COMPILE_INFO += LINK_SCRIPT = $(TEXT_COLOR_GREEN)$(LINK_SCRIPT)$(TEXT_COLOR_END)\n
+CAT_COMPILE_INFO += OUT_ELF = $(TEXT_COLOR_GREEN)$(OUT_ELF)$(TEXT_COLOR_END)\n
+CAT_COMPILE_INFO += compile_enable_detail = $(TEXT_COLOR_GREEN)$(compile_enable_detail)$(TEXT_COLOR_END)\n
+
+# 设定头文件包含目录
+CINCLUDE_FILE += include
+CINCLUDE_FILE += libsrc/liba/include
+CINCLUDE_FILE += libsrc/libb/include
+
+CINCLUDE_FILE += projects/$(PROJECT)/user
+
+subdir-y += src
+subdir-y += libsrc
+subdir-y += projects
+
+include $(RULE_DIR)/rules.mk
