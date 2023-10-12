@@ -1,19 +1,32 @@
 
+
+# 输出编译环境和目标信息
+ifneq ($(CROSS_COMPILE),)	# 交叉编译链位置
 CAT_COMPILE_INFO += COMPILER = $(TEXT_COLOR_GREEN)$(CROSS_COMPILE)$(TEXT_COLOR_END)\n
+endif
+ifneq ($(CATOS_BOARD_ARCH),) # 硬件板型号
 CAT_COMPILE_INFO += CATOS_BOARD_ARCH = $(TEXT_COLOR_GREEN)$(CATOS_BOARD_ARCH)$(TEXT_COLOR_END)\n
+endif
+ifneq ($(LINK_SCRIPT),) # 链接脚本
 CAT_COMPILE_INFO += LINK_SCRIPT = $(TEXT_COLOR_GREEN)$(LINK_SCRIPT)$(TEXT_COLOR_END)\n
+endif
+ifneq ($(OUT_ELF),) #输出 elf 文件
 CAT_COMPILE_INFO += OUT_ELF = $(TEXT_COLOR_GREEN)$(OUT_ELF)$(TEXT_COLOR_END)\n
-CAT_COMPILE_INFO += compile_enable_detail = $(TEXT_COLOR_GREEN)$(compile_enable_detail)$(TEXT_COLOR_END)\n
+endif
+ifneq ($(compile_enable_detail),)	# 是否输出完整编译命令
+CAT_COMPILE_INFO +=compile_enable_detail = $(TEXT_COLOR_GREEN)$(compile_enable_detail)$(TEXT_COLOR_END)\n
+endif
 
-# 设定头文件包含目录
-CINCLUDE_FILE += include
-CINCLUDE_FILE += libsrc/liba/include
-CINCLUDE_FILE += libsrc/libb/include
+# 包含项目需要的头文件目录
+include projects/$(PROJECT)/include_paths.mk
 
+# 将项目目录添加到头文件搜索路径
 CINCLUDE_FILE += projects/$(PROJECT)/user
 
+#添加要编译的目录
 subdir-y += src
 subdir-y += libsrc
 subdir-y += projects
 
+# 包含编译规则文件
 include $(RULE_DIR)/rules.mk
